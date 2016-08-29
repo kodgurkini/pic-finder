@@ -75527,6 +75527,7 @@
 	        this._hamtaService = _hamtaService;
 	        this.show = false;
 	        this.showadv = false;
+	        this.showbuttonMore = false;
 	        this.category = 'all fashion nature people science religion places animals industry food sports transportation travel buildings music'.split(' ');
 	        this.categoryChosen = '';
 	        this.type = 'all photo illustration vector'.split(' ');
@@ -75559,18 +75560,16 @@
 	        this.text = ("https://pixabay.com/api/?key=3130471-5f877d74b904306f82fbefecb&q=" + text) + this.categoryChosen + this.typeChosen + "&page=" + this.page;
 	        this.onSearchGet(this.text);
 	        this.show = true;
+	        this.morebutton();
 	    };
 	    AppComponent.prototype.advanced = function () {
 	        this.showadv = !this.showadv;
 	    };
-	    AppComponent.prototype.clear = function () {
-	        this.show = !this.show;
-	        this.preview = [];
-	        this.link = [];
-	        this.hashtags = [];
-	        this.likes = [];
-	        this.user = [];
-	        this.comments = [];
+	    AppComponent.prototype.morebutton = function () {
+	        var _this = this;
+	        setTimeout(function () { if (_this.preview.length > 19.5) {
+	            _this.showbuttonMore = true;
+	        } ; }, 500);
 	    };
 	    AppComponent.prototype.onChangeCategory = function (newValue) {
 	        this.categoryChosen = "&category=" + newValue;
@@ -75582,12 +75581,23 @@
 	        this.page = this.page + 1;
 	        this.onSearch(this.text);
 	    };
+	    AppComponent.prototype.clear = function () {
+	        this.show = !this.show;
+	        this.preview = [];
+	        this.link = [];
+	        this.hashtags = [];
+	        this.likes = [];
+	        this.user = [];
+	        this.comments = [];
+	        this.page = 1;
+	        this.showbuttonMore = false;
+	    };
 	    AppComponent = __decorate([
 	        core_1.Component({
 	            selector: 'my-app',
 	            directives: [search_box_component_1.SearchBox, common_1.CORE_DIRECTIVES, common_2.NgIf],
 	            providers: [http_1.HTTP_PROVIDERS, hamta_service_1.hamtaService],
-	            template: "\n                <div class=\"jumbotron\">  \n                <img src=\"picfinderlogo.png\" width=\"400\" height=\"25\" alt=\"logo\" class=\"img-responsive center-block\">   \n                <h1 class=\"text-center\">Pic Finder</h1>  \n                <p class=\"lead text-center\">Search and find pictures from the <a href=\"https://pixabay.com/\"><img src=\"pixabay.png\" width=\"128\" height=\"24\" alt=\"\"></a> library<p>\n                <div class=\"form-group\">\n                <p ng-bind-html=\"space\"></p>\n                <p></p>\n                <label>Search Word</label>\n                <search-box (search)=\"onSearch($event)\" text=\"Type Your Search Here\">\n                </search-box>\n                <button class=\"btn btn-default center-block\" (click)=\"advanced()\">Advanced search <span class=\"glyphicon glyphicon-menu-down\"></span></button>\n                <div *ngIf=\"showadv\">\n                <p></p>\n                <label>Category</label>\n                <select class=\"form-control\" (change)=\"onChangeCategory($event.target.value)\">\n                <option *ngFor=\"let i of category\">{{i}}</option>\n                </select>\n                <p></p>\n                <label>Type of image</label>\n                <select class=\"form-control\" (change)=\"onChangeType($event.target.value)\">\n                <option *ngFor=\"let i of type\">{{i}}</option>\n                </select>\n                <p></p>\n                </div>\n                <div *ngIf=\"show\">\n                <p></p>\n                <button class=\"btn btn-danger center-block\" (click)=\"clear()\">Clear results</button>\n                </div>\n                </div>\n                </div>\n                <div class=\"row\">\n                <div class=\"col-lg-4\" *ngFor=\"let preview of preview; let i = index\">\n                <div class=\"thumbnail\" style=\"background:#e2e2e2\">\n                <a href=\"{{link[i]}}\"><img src=\"{{preview}}\" class=\"img-responsive\"></a>\n                <p></p>\n                <p style=\"float:right;\"><span class=\"glyphicon glyphicon-thumbs-up\"></span> {{likes[i]}} <span class=\"glyphicon glyphicon-comment\"></span> {{comments[i]}}</p>\n                <p><b>#{{hashtags[i] | uppercase}}</b></p>\n                <a style=\"float:right;\" href=\"{{link[i]}}\">download</a>\n                <p>By User: {{user[i]}}</p>\n                </div>\n                </div>\n                <button class=\"btn btn-primary center-block\" (click)=\"showMore()\">Show 20 more pictures <span class=\"glyphicon glyphicon-menu-down\"></span></button>\n                <p></p>    \n                </div>          \n    "
+	            template: "\n                <div class=\"jumbotron\">  \n                <img src=\"picfinderlogo.png\" width=\"400\" height=\"25\" alt=\"logo\" class=\"img-responsive center-block\">   \n                <h1 class=\"text-center\">Pic Finder</h1>  \n                <p class=\"lead text-center\">Search and find pictures from the <a href=\"https://pixabay.com/\"><img src=\"pixabay.png\" width=\"128\" height=\"24\" alt=\"\"></a> library<p>\n                <div class=\"form-group\">\n                <p ng-bind-html=\"space\"></p>\n                <p></p>\n                <label>Search Word</label>\n                <search-box (search)=\"onSearch($event)\" text=\"Type Your Search Here\">\n                </search-box>\n                <button class=\"btn btn-default center-block\" (click)=\"advanced()\">Advanced search <span class=\"glyphicon glyphicon-menu-down\"></span></button>\n                <div *ngIf=\"showadv\">\n                <p></p>\n                <label>Category</label>\n                <select class=\"form-control\" (change)=\"onChangeCategory($event.target.value)\">\n                <option *ngFor=\"let i of category\">{{i}}</option>\n                </select>\n                <p></p>\n                <label>Type of image</label>\n                <select class=\"form-control\" (change)=\"onChangeType($event.target.value)\">\n                <option *ngFor=\"let i of type\">{{i}}</option>\n                </select>\n                <p></p>\n                </div>\n                <div *ngIf=\"show\">\n                <p></p>\n                <button class=\"btn btn-danger center-block\" (click)=\"clear()\">Clear results</button>\n                </div>\n                </div>\n                </div>\n                <div class=\"row\">\n                <div class=\"col-lg-4\" *ngFor=\"let preview of preview; let i = index\">\n                <div class=\"thumbnail\" style=\"background:#e2e2e2\">\n                <a href=\"{{link[i]}}\"><img src=\"{{preview}}\" class=\"img-responsive\"></a>\n                <p></p>\n                <p style=\"float:right;\"><span class=\"glyphicon glyphicon-thumbs-up\"></span> {{likes[i]}} <span class=\"glyphicon glyphicon-comment\"></span> {{comments[i]}}</p>\n                <p><b>#{{hashtags[i] | uppercase}}</b></p>\n                <a style=\"float:right;\" href=\"{{link[i]}}\">download</a>\n                <p>By User: {{user[i]}}</p>\n                </div>\n                </div> \n                </div>  \n                <div *ngIf=\"showbuttonMore\">\n                <button class=\"btn btn-primary center-block\" (click)=\"showMore()\">Show 20 more pictures <span class=\"glyphicon glyphicon-menu-down\"></span></button>\n                <p></p>\n                </div>           \n    "
 	        }), 
 	        __metadata('design:paramtypes', [hamta_service_1.hamtaService])
 	    ], AppComponent);
