@@ -52,15 +52,18 @@ import { hamtaService } from './hamta.service';
                 <a style="float:right;" href="{{link[i]}}">download</a>
                 <p>By User: {{user[i]}}</p>
                 </div>
-                </div>
+                </div> 
+                </div>  
+                <div *ngIf="showbuttonMore">
                 <button class="btn btn-primary center-block" (click)="showMore()">Show 20 more pictures <span class="glyphicon glyphicon-menu-down"></span></button>
-                <p></p>    
-                </div>          
+                <p></p>
+                </div>           
     `
 })
 export class AppComponent {
     show: boolean = false;
     showadv: boolean = false;
+    showbuttonMore: boolean = false;
     category = 'all fashion nature people science religion places animals industry food sports transportation travel buildings music'.split(' ');
     categoryChosen = '';
     type = 'all photo illustration vector'.split(' ');
@@ -97,27 +100,20 @@ export class AppComponent {
         }
   }
     
-
     onSearch(text) {
         this.text = `https://pixabay.com/api/?key=3130471-5f877d74b904306f82fbefecb&q=${text}`+this.categoryChosen+this.typeChosen+`&page=`+this.page
-        this.onSearchGet(this.text)
+        this.onSearchGet(this.text);
         this.show = true;
+        this.morebutton();
         }
 
      advanced() {
         this.showadv = !this.showadv;
-     }   
+     }
 
-    clear() {
-        this.show = !this.show;
-        this.preview = [];
-        this.link = [];
-        this.hashtags = [];
-        this.likes = [];
-        this.user = [];
-        this.comments = [];
-        
-    }
+     morebutton(){
+         setTimeout(()=>{ if (this.preview.length > 19.5){this.showbuttonMore = true;}; }, 500);
+     }
 
     onChangeCategory(newValue) {
     this.categoryChosen = `&category=`+newValue;
@@ -131,5 +127,18 @@ export class AppComponent {
        this.page = this.page+1;
        this.onSearch(this.text)
    }
+
+   clear() {
+        this.show = !this.show;
+        this.preview = [];
+        this.link = [];
+        this.hashtags = [];
+        this.likes = [];
+        this.user = [];
+        this.comments = [];
+        this.page = 1;
+        this.showbuttonMore = false;
+        
+    }
 
 }
